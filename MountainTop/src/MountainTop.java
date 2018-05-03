@@ -18,6 +18,9 @@ public class MountainTop {
     
     public static void run(){
         
+        Game game= new Game();
+        
+        game.start();
         
     }
     

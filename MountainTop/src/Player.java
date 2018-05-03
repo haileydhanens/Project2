@@ -42,17 +42,17 @@ public class Player implements Runnable {
     
     public void run(){
         
-        while(this.game.gameOver == false){
+       // while(this.game.gameOver == false){
      
-        takeTurn();    
+    //    takeTurn();    
             
             
             
+          System.out.println("hello from thread"+ name);  
             
             
-            
-        game.turnOver(); // character ends their turn
-        }
+        //game.turnOver(); // character ends their turn
+      //  }
     }
     
     protected void takeTurn(){

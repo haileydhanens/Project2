@@ -28,12 +28,8 @@ public class Game {
             }
             
         }
-        int number = 0;
-        Game enter= this;
-        char character = 'b';
-        Runnable r = new Player(enter, character, number);
-        (new Thread(new Player( this , 'B' , number))).start();
         
+       
     }
     
     private int[] randomPos(){
@@ -45,6 +41,14 @@ public class Game {
         int[] array = {num1, num2};
         
         return array;
+    }
+    
+    public void start(){
+        
+        (new Thread(new Player( this , 'B' , 0))).start(); //created Buggs
+        (new Thread(new Player( this , 'T' , 1))).start(); //created Tweety
+        (new Thread(new Player( this , 'D' , 2))).start(); //Created Tazz
+        
     }
     
     public void turnOver(){

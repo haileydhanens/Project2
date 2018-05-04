@@ -11,11 +11,12 @@ import java.lang.Runnable;
 public class Player implements Runnable {
 
     Game game;
-    char name;
+    String name;
     boolean hasCarrot;
     boolean frozen;
     boolean dead;
     int canPlay;
+    int[] location;
     
     public Player(){
         
@@ -23,36 +24,38 @@ public class Player implements Runnable {
     //needs to be changed if making tweety and tazz class
     public Player(Game game){
        this.game = game;
-       name= 'B';
+       name= "B";
        canPlay=0;
+       location = game.randomPos();
     }
     
-    public Player(Game game, char name, int canPlay ){
+    public Player(Game game, String name, int canPlay ){
        this.game= game;
        this.name= name;
        hasCarrot= false;
        frozen= false;
        dead= false;
        this.canPlay = canPlay;
+       location = game.randomPos();
        
-       //get starting position
+       game.board[location[0]][location[1]]= name;
        
     }
     
     
     public void run(){
         
-       // while(this.game.gameOver == false){
+        while(this.game.gameOver == false){
      
-    //    takeTurn();    
+        takeTurn();    
             
             
             
-          System.out.println("hello from thread"+ name);  
             
             
-        //game.turnOver(); // character ends their turn
-      //  }
+            
+        game.turnOver(); // character ends their turn
+        }
     }
     
     protected void takeTurn(){
@@ -67,6 +70,9 @@ public class Player implements Runnable {
             boolean foundStep = false;
             
             while (!foundStep){
+                
+                
+                
                 //use a rand(7) to pick which direction to go. if direction is valid, foundstep = true and then move there.
             }
             

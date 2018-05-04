@@ -12,44 +12,78 @@ import java.util.Random;
  */
 public class Game {
  
-    public char[][] board = new char[5][5];        // holds the state of the game
+    public String[][] board;      // holds the state of the game
     public int turn;
     public boolean gameOver;
+    public int[] carrot1;
+    public int[] carrot2;
+    public int[] mountain;
+    Thread Buggs;
+    Thread Tazz;
+    Thread Tweety;
+    Thread Marvin; // copy and edit the player class to make a new enemy class.
     
     public Game(){
         
-        board = new char[5][5];
+        board = new String[5][5];
         this.turn= 0;
         gameOver = false;
         
-        for (char[] a : board){             //creates an empty board
-            for(char b : a){
-                b = ' ';
+        for (String[] a : board){             //creates an empty board
+            for(String b : a){
+                b = " ";
             }
             
         }
+        carrot1 = randomPos();
+        board[carrot1[0]][carrot1[1]] = "C";
+        carrot2 = randomPos();
+        board[carrot2[0]][carrot2[1]] = "C";
+        mountain = randomPos();
+        board[mountain[0]][mountain[1]] = "F";
+        
+        Buggs = (new Thread(new Player( this , "B" , 0))); //created Buggs
+        Tweety = (new Thread(new Player( this , "T" , 1))); //created Tweety
+        Tazz = (new Thread(new Player( this , "D" , 2)));   //created Tazz
+        
+        
+        
+        
+        
         
        
     }
     
-    private int[] randomPos(){
+    public int[] randomPos(){
+       boolean valid = false;
+       int num1=0;
+       int num2=0;
+       
+       while(!valid){                   //assigns random spot and checks if it is a valid position
         Random rand = new Random();
         
-        int num1 = rand.nextInt(5);
-        int num2 = rand.nextInt(5);
+        num1 = rand.nextInt(5);
+        num2 = rand.nextInt(5);
         
-        int[] array = {num1, num2};
+        if( board[num1][num2].equals(" ")){
+            valid = true;
+        }
         
+       }
+       
+        int [] array = {num1, num2};
         return array;
     }
     
     public void start(){
         
-        (new Thread(new Player( this , 'B' , 0))).start(); //created Buggs
-        (new Thread(new Player( this , 'T' , 1))).start(); //created Tweety
-        (new Thread(new Player( this , 'D' , 2))).start(); //Created Tazz
+        Buggs.start(); //created Buggs
+        Tweety.start(); //created Tweety
+        Tazz.start(); //Created Tazz
         
     }
+    
+    
     
     public void turnOver(){
         

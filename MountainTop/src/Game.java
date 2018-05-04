@@ -14,6 +14,7 @@ public class Game {
  
     public String[][] board;      // holds the state of the game
     public int turn;
+    public int stage;
     public boolean gameOver;
     public int[] carrot1;
     public int[] carrot2;
@@ -28,13 +29,20 @@ public class Game {
         board = new String[5][5];
         this.turn= 0;
         gameOver = false;
+        stage=1;
         
-        for (String[] a : board){             //creates an empty board
+        
+        for(int i = 0; i< board.length; i++){
+            for(int j = 0; j<board[i].length;j++){
+                board[i][j]= " ";
+            }
+        }
+       /* for (String[] a : board){             //creates an empty board
             for(String b : a){
                 b = " ";
             }
             
-        }
+        }*/
         carrot1 = randomPos();
         board[carrot1[0]][carrot1[1]] = "C";
         carrot2 = randomPos();
@@ -45,7 +53,7 @@ public class Game {
         Buggs = (new Thread(new Player( this , "B" , 0))); //created Buggs
         Tweety = (new Thread(new Player( this , "T" , 1))); //created Tweety
         Tazz = (new Thread(new Player( this , "D" , 2)));   //created Tazz
-        
+        Marvin = (new Thread(new Player( this, "D", 3)));
         
         
         
@@ -80,10 +88,13 @@ public class Game {
         Buggs.start(); //created Buggs
         Tweety.start(); //created Tweety
         Tazz.start(); //Created Tazz
-        
+        Marvin.start();
     }
     
-    
+    public void nextStage(){
+        if(stage==1)
+        this.stage++;
+    }
     
     public void turnOver(){
         

@@ -11,14 +11,11 @@ import java.util.Random;
  * @author hdbut_000
  */
 public class Game {
-
-    public String[][] board;      // holds the state of the game
-    public int turn;
-    public int stage;
-    public boolean gameOver;
-    public int[] carrot1;
-    public int[] carrot2;
-    public int[] mountain;
+    
+    //create new class to hold shared data
+    //lock data on thread that has accessed it.
+    
+    public Data data;
     Player Buggs;
     Player Tweety;
     Player Tazz;
@@ -29,24 +26,24 @@ public class Game {
     Thread ThreadMarvin; // copy and edit the player class to make a new enemy class.
 
     public Game() {
+        this.data = new Data();
+        data.board = new String[5][5];
+        this.data.turn = 0;
+        this.data.gameOver = false;
+        this.data.stage = 1;
 
-        board = new String[5][5];
-        this.turn = 0;
-        gameOver = false;
-        stage = 1;
-
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                board[i][j] = " ";
+        for (int i = 0; i < data.board.length; i++) {
+            for (int j = 0; j < data.board[i].length; j++) {
+                data.board[i][j] = " ";
             }
         }
 
-        carrot1 = randomPos();
-        board[carrot1[0]][carrot1[1]] = "C";
-        carrot2 = randomPos();
-        board[carrot2[0]][carrot2[1]] = "C";
-        mountain = randomPos();
-        board[mountain[0]][mountain[1]] = "F";
+        data.carrot1 = randomPos();
+        data.board[data.carrot1[0]][data.carrot1[1]] = "C";
+        data.carrot2 = randomPos();
+        data.board[data.carrot2[0]][data.carrot2[1]] = "C";
+        data.mountain = randomPos();
+        data.board[data.mountain[0]][data.mountain[1]] = "F";
 
         Buggs = new Player(this, "B", 0);
         Tweety = new Player(this, "T", 1);
@@ -71,7 +68,7 @@ public class Game {
             num1 = rand.nextInt(5);
             num2 = rand.nextInt(5);
 
-            if (board[num1][num2].equals(" ")) {
+            if (data.board[num1][num2].equals(" ")) {
                 valid = true;
             }
 
@@ -82,38 +79,36 @@ public class Game {
     }
 
     public void start() {
-
+        this.printBoard();
         ThreadBuggs.start(); //created Buggs
         ThreadTweety.start(); //created Tweety
         ThreadTazz.start(); //Created Tazz
         ThreadMarvin.start();
+        
     }
 
     public void nextStage() {
-        if (stage == 1) {
-            this.stage++;
+        if (data.stage == 1) {
+            this.data.stage++;
         }
     }
 
     public void turnOver() {
-
-        if (turn >= 3) {
-           
-            printBoard();
-            turn = 0;
-        } else {
-            turn++;
-        }
+            if(data.turn%4==3){
+                printBoard();
+            }
+            data.turn++;
+            
 
     }
 
     public void printBoard() {
-
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j].equals(" ")) {
+        System.out.println();
+        for (int i = 0; i < data.board.length; i++) {
+            for (int j = 0; j < data.board[i].length; j++) {
+                if (data.board[i][j].equals(" ")) {
                     System.out.print(" \t|");
-                } else if (board[i][j].equals("B")) {
+                } else if (data.board[i][j].equals("B")) {
                     if (Buggs.hasCarrot == true) {
                         if (Buggs.frozen) {
                             System.out.print("B(CF)\t|");
@@ -130,7 +125,7 @@ public class Game {
                     }
                     //print bugs info
 
-                } else if (board[i][j].equals("T")) {
+                } else if (data.board[i][j].equals("T")) {
                     if (Tweety.hasCarrot == true) {
                         if (Tweety.frozen) {
                             System.out.print("T(CF)\t|");
@@ -146,7 +141,7 @@ public class Game {
                         }
                     }
                     //print tweety info
-                } else if (board[i][j].equals("D")) {
+                } else if (data.board[i][j].equals("D")) {
 
                     if (Tazz.hasCarrot == true) {
                         if (Tazz.frozen) {
@@ -164,7 +159,7 @@ public class Game {
                     }
 
                     //print tazz info
-                } else if (board[i][j].equals("M")) {
+                } else if (data.board[i][j].equals("M")) {
 
                     if (Marvin.hasCarrot == true) {
                         if (Buggs.frozen) {
@@ -183,10 +178,10 @@ public class Game {
 
                     //print marvin info
                 }
-                else if(board[i][j].equals("C")){
+                else if(data.board[i][j].equals("C")){
                     System.out.print("C\t|");
                 }
-                else if(board[i][j].equals("F")){
+                else if(data.board[i][j].equals("F")){
                     System.out.print("F\t|");
                 }
                 

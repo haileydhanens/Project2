@@ -139,12 +139,7 @@ public class Player implements Runnable {
                 
 
                 //use a rand(7) to pick which direction to go. if direction is valid, foundstep = true and then move there.
-            }
-                game.data.board[location[0]][location[1]] = " ";
-                game.data.board[newPos[0]][newPos[1]] = name;
-                location[0] = newPos[0];
-                location[1] = newPos[1];
-                
+            }   
         }
         }
     }
@@ -159,17 +154,29 @@ public class Player implements Runnable {
                     || game.data.board[location[0] + x][location[1] + y].equals("F")) 
             {
 
-                if (game.data.board[location[0] + x][location[1] + y].equals("C") && !this.hasCarrot) {//if you dont have the carrot
+                if (game.data.board[location[0] + x][location[1] + y].equals("C") && !hasCarrot) {//if you dont have the carrot
                     hasCarrot = true;
                     foundStep = true;
-                    
+                    game.data.board[location[0] + x][location[1] + y]= name;
+                    game.data.board[location[0]][location[1]]=" ";
+                    location[0]=location[0]+x;
+                    location[1]=location[1]+y;
 
-                } else if (game.data.board[location[0] + x][location[1] + y].equals("F") && !this.hasCarrot) {
+                } else if (game.data.board[location[0] + x][location[1] + y].equals("F") && hasCarrot) {
                     this.game.data.gameOver = true;
                     System.out.println(name + " has a carrot!");
                     foundStep = true;
+                    game.data.board[location[0] + x][location[1] + y]= name;
+                    game.data.board[location[0]][location[1]]=" ";
+                    location[0]=location[0]+x;
+                    location[1]=location[1]+y;
+                    
 
                 } else if (game.data.board[location[0] + x][location[1] + y].equals(" ")) {
+                   game.data.board[location[0] + x][location[1] + y]= name;
+                    game.data.board[location[0]][location[1]]=" ";
+                    location[0]=location[0]+x;
+                    location[1]=location[1]+y;
                     foundStep = true;
 
                 }

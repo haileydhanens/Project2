@@ -87,18 +87,20 @@ public class Game {
         
     }
 
-    public void nextStage() {
-        if (data.stage == 1) {
-            this.data.stage++;
-        }
-    }
 
-    public void turnOver() {
-            if(data.turn%4==3){
-                printBoard();
-            }
+    public void turnOver(){  //after stage one every so often the mountain will jump
+            if(data.stage<=1){
             data.turn++;
             
+            if(data.turn%12 == 0){
+                int[] hold = this.randomPos();
+                data.board[data.mountain[0]][data.mountain[1]] = " ";
+                data.mountain=hold;
+                data.board[data.mountain[0]][data.mountain[1]] = "F";
+
+               
+            }
+        }
 
     }
 
@@ -106,83 +108,88 @@ public class Game {
         System.out.println();
         for (int i = 0; i < data.board.length; i++) {
             for (int j = 0; j < data.board[i].length; j++) {
-                if (data.board[i][j].equals(" ")) {
-                    System.out.print(" \t|");
-                } else if (data.board[i][j].equals("B")) {
-                    if (Buggs.hasCarrot == true) {
-                        if (Buggs.frozen) {
-                            System.out.print("B(CF)\t|");
+                switch (data.board[i][j]) {
+                    case " ":
+                        System.out.print(" \t|");
+                        break;
+                    case "B":
+                        if (Buggs.hasCarrot == true) {
+                            if (Buggs.frozen) {
+                                System.out.print("B(CF)\t|");
+                            } else {
+                                System.out.print("B(C)\t|");
+                            }
+                            
                         } else {
-                            System.out.print("B(C)\t|");
+                            if (Buggs.frozen) {
+                                System.out.print("B(F)\t|");
+                            } else {
+                                System.out.print("B\t|");
+                            }
                         }
-
-                    } else {
-                        if (Buggs.frozen) {
-                            System.out.print("B(F)\t|");
+                        //print bugs info
+                        break;
+                    case "T":
+                        if (Tweety.hasCarrot == true) {
+                            if (Tweety.frozen) {
+                                System.out.print("T(CF)\t|");
+                            } else {
+                                System.out.print("T(C)\t|");
+                            }
+                            
                         } else {
-                            System.out.print("B\t|");
+                            if (Tweety.frozen) {
+                                System.out.print("T(F)\t|");
+                            } else {
+                                System.out.print("T\t|");
+                            }
                         }
-                    }
-                    //print bugs info
-
-                } else if (data.board[i][j].equals("T")) {
-                    if (Tweety.hasCarrot == true) {
-                        if (Tweety.frozen) {
-                            System.out.print("T(CF)\t|");
+                        //print tweety info
+                        break;
+                    case "D":
+                        if (Tazz.hasCarrot == true) {
+                            if (Tazz.frozen) {
+                                System.out.print("D(CF)\t|");
+                            } else {
+                                System.out.print("D(C)\t|");
+                            }
+                            
                         } else {
-                            System.out.print("T(C)\t|");
+                            if (Tazz.frozen) {
+                                System.out.print("D(F)\t|");
+                            } else {
+                                System.out.print("D\t|");
+                            }
                         }
-
-                    } else {
-                        if (Tweety.frozen) {
-                            System.out.print("T(F)\t|");
+                        
+                        //print tazz info
+                        break;
+                    case "M":
+                        if (Marvin.hasCarrot == true) {
+                            if (Buggs.frozen) {
+                                System.out.print("M(CF)\t|");
+                            } else {
+                                System.out.print("M(C)\t|");
+                            }
+                            
                         } else {
-                            System.out.print("T\t|");
+                            if (Marvin.frozen) {
+                                System.out.print("M(F)\t|");
+                            } else {
+                                System.out.print("M\t|");
+                            }
                         }
-                    }
-                    //print tweety info
-                } else if (data.board[i][j].equals("D")) {
-
-                    if (Tazz.hasCarrot == true) {
-                        if (Tazz.frozen) {
-                            System.out.print("D(CF)\t|");
-                        } else {
-                            System.out.print("D(C)\t|");
-                        }
-
-                    } else {
-                        if (Tazz.frozen) {
-                            System.out.print("D(F)\t|");
-                        } else {
-                            System.out.print("D\t|");
-                        }
-                    }
-
-                    //print tazz info
-                } else if (data.board[i][j].equals("M")) {
-
-                    if (Marvin.hasCarrot == true) {
-                        if (Buggs.frozen) {
-                            System.out.print("M(CF)\t|");
-                        } else {
-                            System.out.print("M(C)\t|");
-                        }
-
-                    } else {
-                        if (Marvin.frozen) {
-                            System.out.print("M(F)\t|");
-                        } else {
-                            System.out.print("M\t|");
-                        }
-                    }
-
-                    //print marvin info
-                }
-                else if(data.board[i][j].equals("C")){
-                    System.out.print("C\t|");
-                }
-                else if(data.board[i][j].equals("F")){
-                    System.out.print("F\t|");
+                        
+                        //print marvin info
+                        break;
+                    case "C":
+                        System.out.print("C\t|");
+                        break;
+                    case "F":
+                        System.out.print("F\t|");
+                        break;
+                    default:
+                        break;
                 }
                 
             }

@@ -19,7 +19,7 @@ public class Game {
     Player Buggs;
     Player Tweety;
     Player Tazz;
-    Player Marvin;
+    enemy Marvin;
     Thread ThreadBuggs;
     Thread ThreadTazz;
     Thread ThreadTweety;
@@ -48,7 +48,7 @@ public class Game {
         Buggs = new Player(this, "B", 0);
         Tweety = new Player(this, "T", 1);
         Tazz = new Player(this, "D", 2);
-        Marvin = new Player(this, "M", 3);
+        Marvin = new enemy(this, "M", 3);
 
         ThreadBuggs = (new Thread(Buggs)); //created Buggs
         ThreadTweety = (new Thread(Tweety)); //created Tweety
@@ -89,8 +89,9 @@ public class Game {
 
 
     public void turnOver(){  //after stage one every so often the mountain will jump
-            if(data.stage<=1){
-            data.turn++;
+        
+        if(data.stage<=1){
+            data.stage++;
             
             if(data.turn%12 == 0){
                 int[] hold = this.randomPos();

@@ -67,7 +67,10 @@ public class Player implements Runnable {
         System.out.print(name +"'s turn.   Frozen? :" + frozen + "    carrot? :" + hasCarrot+"\n");
         if (frozen || dead) {             //if the character is frozen spend turn unfreezing
 
-            frozen = false;
+            try{Thread.sleep(100);}
+            catch(Exception e){
+                
+            }
         } else {
 
             boolean foundStep = false;

@@ -87,18 +87,20 @@ public class Game {
         
     }
 
-    public void nextStage() {
-        if (data.stage == 1) {
-            this.data.stage++;
-        }
-    }
 
     public void turnOver() {
-            if(data.turn%4==3){
-                printBoard();
-            }
+            if(data.stage<=1){
             data.turn++;
             
+            if(data.turn%12 == 0){
+                int[] hold = this.randomPos();
+                data.board[data.mountain[0]][data.mountain[1]] = " ";
+                data.mountain=hold;
+                data.board[data.mountain[0]][data.mountain[1]] = "F";
+
+               
+            }
+        }
 
     }
 

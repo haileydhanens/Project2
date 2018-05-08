@@ -76,57 +76,48 @@ public class Player implements Runnable {
             int stepCode = 0;
 
             while (!foundStep) {
-                System.out.print("*");
 
                 stepCode = rand.nextInt(8);
 
                 switch (stepCode) {
 
                     case 0:
-                        System.out.print("0");
                         foundStep = runPosition(0, 1);
                         newPos[0] = location[0];
                         newPos[1] = location[1] + 1;
                         break;
                     case 1:
-                        System.out.print("1");
                         foundStep = runPosition(1, 1);
                         newPos[0] = location[0] + 1;
                         newPos[1] = location[1] + 1;
                         break;
                     case 2:
-                        System.out.print("2");
                         foundStep = runPosition(1, 0);
                         newPos[0] = location[0] + 1;
                         newPos[1] = location[1];
                         break;
                     case 3:
-                        System.out.print("3");
                         foundStep = runPosition(1, -1);
                         newPos[0] = location[0] + 1;
                         newPos[1] = location[1] - 1;
                         break;
                     case 4:
-                        System.out.print("4");
                         foundStep = runPosition(0, -1);
                         newPos[0] = location[0];
                         newPos[1] = location[1] - 1;
                         break;
                     case 5:
-                        System.out.print("5");
                         foundStep = runPosition(-1, -1);
                         newPos[0] = location[0] - 1;
                         newPos[1] = location[1] - 1;
                         break;
                     case 6:
-                        System.out.print("6");
                         foundStep = runPosition(-1, 0);
                         newPos[0] = location[0] - 1;
                         newPos[1] = location[1];
                         break;
 
                     case 7:
-                        System.out.print("7");
                         foundStep = runPosition(-1, +1);
                         newPos[0] = location[0] - 1;
                         newPos[1] = location[1] + 1;
@@ -142,6 +133,7 @@ public class Player implements Runnable {
             }   
         }
         }
+        game.turnOver();
     }
 
     public boolean runPosition(int x, int y) {
@@ -155,6 +147,7 @@ public class Player implements Runnable {
             {
 
                 if (game.data.board[location[0] + x][location[1] + y].equals("C") && !hasCarrot) {//if you dont have the carrot
+                    game.data.stage++;
                     hasCarrot = true;
                     foundStep = true;
                     game.data.board[location[0] + x][location[1] + y]= name;
@@ -164,7 +157,7 @@ public class Player implements Runnable {
 
                 } else if (game.data.board[location[0] + x][location[1] + y].equals("F") && hasCarrot) {
                     this.game.data.gameOver = true;
-                    System.out.println(name + " has a carrot!");
+                    System.out.println(name + " has won!");
                     foundStep = true;
                     game.data.board[location[0] + x][location[1] + y]= name;
                     game.data.board[location[0]][location[1]]=" ";
@@ -183,7 +176,7 @@ public class Player implements Runnable {
 
             }
         }
-
+        game.printBoard();
         return foundStep;
     }
 

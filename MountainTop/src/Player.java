@@ -1,14 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 import java.lang.*;
 import java.util.Random;
 
 /**
- *
- * @author hdbut_000
+ * Player class for the game
+ * 
+ * @author Hailey Dhanens
+ * @author Jake Patzer
  */
 public class Player implements Runnable {
 
@@ -31,7 +28,15 @@ public class Player implements Runnable {
         canPlay = 0;
         location = game.randomPos();
     }
-
+    
+    /**
+     * Creates a new Player object, initializing their name and turn number,
+     * and assigning them to a Game.
+     * 
+     * @param game the Game this Player is assigned to
+     * @param name  the Player's name
+     * @param canPlay value which determines when the Player takes their turn
+     */
     public Player(Game game, String name, int canPlay) {
         this.game = game;
         this.name = name;
@@ -44,7 +49,10 @@ public class Player implements Runnable {
         game.data.board[location[0]][location[1]] = name;
 
     }
-
+    
+    /**
+     * Runs when a thread of this Player is created, and stops when the game ends.
+     */
     public void run() {
 
         while (this.game.data.gameOver == false) {
@@ -62,7 +70,11 @@ public class Player implements Runnable {
         }
 
     }
-
+    
+    /**
+     * Runs when it is this Player's turn to move. Determines if the Player is
+     * able to move, and if so, the Player moves one space in a random direction.
+     */
     protected void takeTurn() {
 
         synchronized (game.data) {
@@ -140,7 +152,14 @@ public class Player implements Runnable {
         }
         game.turnOver();
     }
-
+    
+    /**
+     * Determines if the Player is able to move in the specified direction.
+     * 
+     * @param x the change in x position to be attempted
+     * @param y the change in y position to be attempted
+     * @return true if the attempted movement is valid, return false otherwise
+     */
     public boolean runPosition(int x, int y) {
         boolean foundStep = false;
 
@@ -150,7 +169,7 @@ public class Player implements Runnable {
                     || game.data.board[location[0] + x][location[1] + y].equals("F")) {
 
                 if (game.data.board[location[0] + x][location[1] + y].equals("C") && !hasCarrot) {//if you dont have the carrot
-                    game.data.stage++;
+                    //game.data.stage++;        stage++ already happens in turnOver()
                     hasCarrot = true;
                     foundStep = true;
                     game.data.board[location[0] + x][location[1] + y] = name;

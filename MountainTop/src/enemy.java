@@ -1,16 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
- * @author hdbut_000
+ * Enemy class for the game
+ * 
+ * @author Hailey Dhanens
+ * @author Jake Patzer
  */
 public class enemy extends Player {
     
-    
+    /**
+     * Creates a new Enemy object, initializing their name and turn number,
+     * and assigning them to a Game.
+     * 
+     * @param game the Game this Player is assigned to
+     * @param name  the Player's name
+     * @param canPlay value which determines when the Player takes their turn
+     */
     public enemy(Game game, String name, int canPlay) {
         this.game = game;
         this.name = name;
@@ -25,7 +28,15 @@ public class enemy extends Player {
     }
     
     
-    
+    /**
+     * Determines if the Enemy is able to move in the specified direction, or attack
+     * a player
+     * 
+     * @param x the change in x position to be attempted
+     * @param y the change in y position to be attempted
+     * @return true if the attempted movement is valid, return false otherwise
+     */
+    @Override
     public boolean runPosition(int x, int y) {
         boolean foundStep = false;
         

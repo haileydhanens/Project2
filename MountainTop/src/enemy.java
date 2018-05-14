@@ -19,7 +19,6 @@ public class enemy extends Player {
         this.name = name;
         hasCarrot = false;
         frozen = false;
-        dead = false;
         this.canPlay = canPlay;
         location = game.randomPos();
 
@@ -44,7 +43,11 @@ public class enemy extends Player {
         if ((location[0] + x >= 0 && location[0] + x <= 4) && (location[1] + y >= 0 && location[1] + y <= 4)) {
             if (game.data.board[location[0] + x][location[1] + y].equals(" ")
                     || game.data.board[location[0] + x][location[1] + y].equals("C")
-                    || game.data.board[location[0] + x][location[1] + y].equals("F")) 
+                    || game.data.board[location[0] + x][location[1] + y].equals("F")
+                    || game.data.board[location[0] + x][location[1] + y].equals("B")
+                    || game.data.board[location[0] + x][location[1] + y].equals("T")
+                    || game.data.board[location[0] + x][location[1] + y].equals("D"))
+                     
             {
 
                 if (game.data.board[location[0] + x][location[1] + y].equals("C") && !hasCarrot) {//if you dont have the carrot
@@ -55,15 +58,20 @@ public class enemy extends Player {
                     game.data.board[location[0]][location[1]]=" ";
                     location[0]=location[0]+x;
                     location[1]=location[1]+y;
+                    game.printBoard();
+                    if (game.data.stage2){
+                        game.data.stage++;
+                    }
 
                 } else if (game.data.board[location[0] + x][location[1] + y].equals("F") && hasCarrot) {
                     this.game.data.gameOver = true;
-                    System.out.println(name + " has won!");
                     foundStep = true;
                     game.data.board[location[0] + x][location[1] + y]= name;
                     game.data.board[location[0]][location[1]]=" ";
                     location[0]=location[0]+x;
                     location[1]=location[1]+y;
+                    game.printBoard();
+                    System.out.println(name + " has won!");
                     
 
                 } else if (game.data.board[location[0] + x][location[1] + y].equals(" ")) {
@@ -72,11 +80,16 @@ public class enemy extends Player {
                     location[0]=location[0]+x;
                     location[1]=location[1]+y;
                     foundStep = true;
+                    game.printBoard();
+                    if (game.data.stage2){
+                        game.data.stage++;
+                    }
 
                 }
                 
                 else if (game.data.board[location[0] + x][location[1] + y].equals("B")) {
                     game.Buggs.frozen = true;
+                    System.out.println("Buggs has been frozen!");
                     if(game.Buggs.hasCarrot){
                         this.hasCarrot=true;
                         game.Buggs.hasCarrot = false;
@@ -86,11 +99,16 @@ public class enemy extends Player {
                     location[0]=location[0]+x;
                     location[1]=location[1]+y;
                     foundStep = true;
+                    game.printBoard();
+                    if (game.data.stage2){
+                        game.data.stage++;
+                    }
 
                 }
                 
                 else if (game.data.board[location[0] + x][location[1] + y].equals("T")) {
                     game.Tweety.frozen = true;
+                    System.out.println("Tweety has been frozen!");
                     if(game.Tweety.hasCarrot){
                         this.hasCarrot=true;
                         game.Tweety.hasCarrot = false;
@@ -100,11 +118,16 @@ public class enemy extends Player {
                     location[0]=location[0]+x;
                     location[1]=location[1]+y;
                     foundStep = true;
+                    game.printBoard();
+                    if (game.data.stage2){
+                        game.data.stage++;
+                    }
 
                 }
                 
                 else if (game.data.board[location[0] + x][location[1] + y].equals("D")) {
                     game.Tazz.frozen = true;
+                    System.out.println("Tazz has been frozen!");
                     if(game.Tazz.hasCarrot){
                         this.hasCarrot=true;
                         game.Tazz.hasCarrot = false;
@@ -114,12 +137,15 @@ public class enemy extends Player {
                     location[0]=location[0]+x;
                     location[1]=location[1]+y;
                     foundStep = true;
+                    game.printBoard();
+                    if (game.data.stage2){
+                        game.data.stage++;
+                    }
 
                 }
 
             }
         }
-        game.printBoard();
         return foundStep;
     }
     

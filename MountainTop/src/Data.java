@@ -12,6 +12,7 @@ public class Data {
     public int[] carrot1;
     public int[] carrot2;
     public int[] mountain;
+    public boolean stage2;
     
     public Data(){
     }

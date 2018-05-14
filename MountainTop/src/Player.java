@@ -1,9 +1,10 @@
+
 import java.lang.*;
 import java.util.Random;
 
 /**
  * Player class for the game
- * 
+ *
  * @author Hailey Dhanens
  * @author Jake Patzer
  */
@@ -13,7 +14,7 @@ public class Player implements Runnable {
     String name;
     boolean hasCarrot;
     boolean frozen;
-    boolean dead;
+
     int canPlay;
     int[] location;
 
@@ -28,13 +29,13 @@ public class Player implements Runnable {
         canPlay = 0;
         location = game.randomPos();
     }
-    
+
     /**
-     * Creates a new Player object, initializing their name and turn number,
-     * and assigning them to a Game.
-     * 
+     * Creates a new Player object, initializing their name and turn number, and
+     * assigning them to a Game.
+     *
      * @param game the Game this Player is assigned to
-     * @param name  the Player's name
+     * @param name the Player's name
      * @param canPlay value which determines when the Player takes their turn
      */
     public Player(Game game, String name, int canPlay) {
@@ -42,16 +43,18 @@ public class Player implements Runnable {
         this.name = name;
         hasCarrot = false;
         frozen = false;
-        dead = false;
+       
+
         this.canPlay = canPlay;
         location = game.randomPos();
 
         game.data.board[location[0]][location[1]] = name;
 
     }
-    
+
     /**
-     * Runs when a thread of this Player is created, and stops when the game ends.
+     * Runs when a thread of this Player is created, and stops when the game
+     * ends.
      */
     public void run() {
 
@@ -61,7 +64,7 @@ public class Player implements Runnable {
 
                 takeTurn();
                 game.data.turn++;
-                game.turnOver(); // character ends their turn
+
             }
             try {
                 Thread.sleep(100);
@@ -70,17 +73,16 @@ public class Player implements Runnable {
         }
 
     }
-    
+
     /**
      * Runs when it is this Player's turn to move. Determines if the Player is
-     * able to move, and if so, the Player moves one space in a random direction.
+     * able to move, and if so, the Player moves one space in a random
+     * direction.
      */
     protected void takeTurn() {
 
         synchronized (game.data) {
-
-            System.out.print(name + "'s turn.   Frozen? :" + frozen + "    carrot? :" + hasCarrot + "\n");
-            if (frozen || dead) {             //if the character is frozen spend turn unfreezing
+            if (frozen) {             //if the character is frozen spend turn unfreezing
 
                 try {
                     Thread.sleep(100);
@@ -148,14 +150,22 @@ public class Player implements Runnable {
 
                     //use a rand(7) to pick which direction to go. if direction is valid, foundstep = true and then move there.
                 }
+
             }
         }
-        game.turnOver();
+         if(game.data.stage%12 == 0 && game.data.stage2){
+                int[] hold = game.randomPos();
+                game.data.board[game.data.mountain[0]][game.data.mountain[1]] = " ";
+                game.data.mountain=hold;
+                game.data.board[game.data.mountain[0]][game.data.mountain[1]] = "F";
+
+               
+            }
     }
-    
+
     /**
      * Determines if the Player is able to move in the specified direction.
-     * 
+     *
      * @param x the change in x position to be attempted
      * @param y the change in y position to be attempted
      * @return true if the attempted movement is valid, return false otherwise
@@ -169,22 +179,30 @@ public class Player implements Runnable {
                     || game.data.board[location[0] + x][location[1] + y].equals("F")) {
 
                 if (game.data.board[location[0] + x][location[1] + y].equals("C") && !hasCarrot) {//if you dont have the carrot
-                    //game.data.stage++;        stage++ already happens in turnOver()
+
+                   
+                        game.data.stage2 = true;  //triggers mountain movement
+                    
                     hasCarrot = true;
                     foundStep = true;
                     game.data.board[location[0] + x][location[1] + y] = name;
                     game.data.board[location[0]][location[1]] = " ";
                     location[0] = location[0] + x;
                     location[1] = location[1] + y;
+                    game.printBoard();
+                    if (game.data.stage2){
+                        game.data.stage++;
+                    }
 
                 } else if (game.data.board[location[0] + x][location[1] + y].equals("F") && hasCarrot) {
                     this.game.data.gameOver = true;
-                    System.out.println(name + " has won!");
                     foundStep = true;
                     game.data.board[location[0] + x][location[1] + y] = name;
                     game.data.board[location[0]][location[1]] = " ";
                     location[0] = location[0] + x;
                     location[1] = location[1] + y;
+                    game.printBoard();
+                    System.out.println(name + " has won!");
 
                 } else if (game.data.board[location[0] + x][location[1] + y].equals(" ")) {
                     game.data.board[location[0] + x][location[1] + y] = name;
@@ -192,12 +210,16 @@ public class Player implements Runnable {
                     location[0] = location[0] + x;
                     location[1] = location[1] + y;
                     foundStep = true;
+                    game.printBoard();
+                    if (game.data.stage2){
+                        game.data.stage++;
+                    }
+                    
 
                 }
 
             }
         }
-        game.printBoard();
         return foundStep;
     }
 

@@ -29,7 +29,8 @@ public class Game {
         data.board = new String[5][5];
         this.data.turn = 0;
         this.data.gameOver = false;
-        this.data.stage = 1;
+        this.data.stage = 0;
+        this.data.stage2 = false;
 
         for (int i = 0; i < data.board.length; i++) {
             for (int j = 0; j < data.board[i].length; j++) {
@@ -97,28 +98,15 @@ public class Game {
     /**
      * Executes when a Player finishes their turn
      */
-    public void turnOver(){  //after stage one every so often the mountain will jump
-        
-        if(data.stage>=1){ //This was originally less than/equal to, I think it was supposed to be like this?
-            data.stage++;
-            
-            if(data.turn%12 == 0){
-                int[] hold = this.randomPos();
-                data.board[data.mountain[0]][data.mountain[1]] = " ";
-                data.mountain=hold;
-                data.board[data.mountain[0]][data.mountain[1]] = "F";
-
-               
-            }
-        }
-
-    }
+    
     
     /**
      * Prints the current state of the board to the console
      */
     public void printBoard() {
         System.out.println();
+
+        System.out.println("-----------------------------------------");
         for (int i = 0; i < data.board.length; i++) {
             for (int j = 0; j < data.board[i].length; j++) {
                 switch (data.board[i][j]) {
@@ -145,7 +133,7 @@ public class Game {
                     case "T":
                         if (Tweety.hasCarrot == true) {
                             if (Tweety.frozen) {
-                                System.out.print("T(CF)\t|");
+                                System.out.print("T(F)\t|");
                             } else {
                                 System.out.print("T(C)\t|");
                             }
@@ -179,18 +167,11 @@ public class Game {
                         break;
                     case "M":
                         if (Marvin.hasCarrot == true) {
-                            if (Buggs.frozen) {
-                                System.out.print("M(CF)\t|");
-                            } else {
                                 System.out.print("M(C)\t|");
                             }
                             
-                        } else {
-                            if (Marvin.frozen) {
-                                System.out.print("M(F)\t|");
-                            } else {
+                        else {                          
                                 System.out.print("M\t|");
-                            }
                         }
                         
                         //print marvin info
@@ -208,6 +189,6 @@ public class Game {
             }
             System.out.println("\n");
         }
-
+        System.out.println("-----------------------------------------");
     }
 }

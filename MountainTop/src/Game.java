@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import java.util.Random;
 
 /**
- *
- * @author hdbut_000
+ * Engine for the game
+ * 
+ * @author Hailey Dhanens
+ * @author Jake Patzer
  */
 public class Game {
     
@@ -24,7 +20,10 @@ public class Game {
     Thread ThreadTazz;
     Thread ThreadTweety;
     Thread ThreadMarvin; // copy and edit the player class to make a new enemy class.
-
+    
+    /**
+     * Initializes a new game.
+     */
     public Game() {
         this.data = new Data();
         data.board = new String[5][5];
@@ -56,7 +55,12 @@ public class Game {
         ThreadMarvin = (new Thread(Marvin));
 
     }
-
+    
+    /**
+     * Assigns a random position, making sure it is valid.
+     * 
+     * @return a random, unoccupied position 
+     */
     public int[] randomPos() {
         boolean valid = false;
         int num1 = 0;
@@ -77,7 +81,10 @@ public class Game {
         int[] array = {num1, num2};
         return array;
     }
-
+    
+    /**
+     * Initializes the player threads.
+     */
     public void start() {
         this.printBoard();
         ThreadBuggs.start(); //created Buggs
@@ -87,10 +94,12 @@ public class Game {
         
     }
 
-
+    /**
+     * Executes when a Player finishes their turn
+     */
     public void turnOver(){  //after stage one every so often the mountain will jump
         
-        if(data.stage<=1){
+        if(data.stage>=1){ //This was originally less than/equal to, I think it was supposed to be like this?
             data.stage++;
             
             if(data.turn%12 == 0){
@@ -104,7 +113,10 @@ public class Game {
         }
 
     }
-
+    
+    /**
+     * Prints the current state of the board to the console
+     */
     public void printBoard() {
         System.out.println();
         for (int i = 0; i < data.board.length; i++) {
